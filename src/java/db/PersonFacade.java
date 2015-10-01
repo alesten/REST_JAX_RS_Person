@@ -43,6 +43,10 @@ public class PersonFacade implements IPersonFacade {
 
             p = em.find(Person.class, id);
 
+            if(p == null){
+                return null;
+            }
+            
             em.remove(p);
 
             em.getTransaction().commit();
@@ -97,6 +101,10 @@ public class PersonFacade implements IPersonFacade {
         try {
             em.getTransaction().begin();
 
+            if(em.find(Person.class, p.getId()) == null){
+                return null;
+            }
+            
             em.merge(p);
 
             em.getTransaction().commit();

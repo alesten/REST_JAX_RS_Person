@@ -84,6 +84,9 @@ and open the template in the editor.
         </div>
 
         <div class="container">
+            <div id="error" class="alert alert-danger alert-dismissible" hidden role="alert">
+            </div>
+
             <table class="table table">
                 <thead>
                     <tr>
@@ -126,6 +129,9 @@ and open the template in the editor.
                         }
                         $("table tbody").html(str);
                     }
+                }).fail(function (error) {
+                    var json = error.responseJSON;
+                    $("#error").show().html(json.message);
                 });
             }
 
@@ -150,14 +156,17 @@ and open the template in the editor.
                         str += "</tr>";
                         $("table tbody").append(str);
                     }
+                }).fail(function (error) {
+                    var json = error.responseJSON;
+                    $("#error").show().html(json.message);
                 });
 
                 clearInputFields();
             }
-            
-            function editPerson(){
+
+            function editPerson() {
                 var data = getFormData($('#editPersonForm'));
-                
+
                 $.ajax({
                     url: "/api/person",
                     type: 'PUT',
@@ -166,8 +175,11 @@ and open the template in the editor.
                     success: function (result) {
                         populateTable();
                     }
+                }).fail(function (error) {
+                    var json = error.responseJSON;
+                    $("#error").show().html(json.message);
                 });
-                
+
                 clearInputFields();
             }
 
@@ -180,6 +192,9 @@ and open the template in the editor.
                     success: function (result) {
                         populateTable();
                     }
+                }).fail(function (error) {
+                    var json = error.responseJSON;
+                    $("#error").show().html(json.message);
                 });
             }
 
@@ -187,7 +202,7 @@ and open the template in the editor.
                 var id = $(person).data("personid");
 
                 $.ajax({
-                    url: "/api/person/" + id, 
+                    url: "/api/person/" + id,
                     type: 'GET',
                     success: function (person) {
                         $("#editPersonForm input[name=fName").val(person["fName"]);
@@ -195,6 +210,9 @@ and open the template in the editor.
                         $("#editPersonForm input[name=phone").val(person["phone"]);
                         $("#editPersonForm input[name=id").val(person["id"]);
                     }
+                }).fail(function (error) {
+                    var json = error.responseJSON;
+                    $("#error").show().html(json.message);
                 });
             }
 
